@@ -1,11 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Switch, Route } from 'react-router-dom'
- 
+
 import styled from 'styled-components';
 import Icon from 'react-icons-kit'
 import { chevronLeft, chevronRight } from 'react-icons-kit/feather';
-import { bell } from 'react-icons-kit/feather';  
+import { bell } from 'react-icons-kit/feather';
 
 import Create from '../components/workspace/Create';
 import workspaces from './workspace';
@@ -15,11 +15,11 @@ class Home extends React.Component {
     constructor() {
         super();
         this.state = {
-            showCreateModal:false,
+            showCreateModal: false,
 
-        } 
+        }
     }
-    componentDidMount(){  
+    componentDidMount() {
         /*
             1) fetch data of workspace into redux
             2) redirect to first selected workspace from redux we will load data 
@@ -28,13 +28,13 @@ class Home extends React.Component {
             5) global shortcuts - 
             6) notifications
             7) help docs / keyboard shortcust list 
-        */  
-       this.props.history.push(`/${this.props.user.selectedWorkspace}`);
+        */
+        this.props.history.push(`/${this.props.selectedWorkspace}`);
     }
-    onSortEnd =(w)=>{
-    let{user} = this.props;
+    onSortEnd = (w) => {
+        let { user } = this.props;
         user.workspaces = w;
-        this.props.dispatch({type:'UPDATE_USER',user:user})
+        this.props.dispatch({ type: 'UPDATE_USER', user: user })
     }
     render() {
         return (
@@ -46,20 +46,24 @@ class Home extends React.Component {
                         <Icon icon={chevronRight} style={{ padding: 10 }} onClick={this.props.history.goForward} />
                         <div style={{ flex: 1 }} />
                         {/* {search} */}
-                        <Icon icon={bell} style={{ padding: 10 }} onClick={()=>{this.setState({showCreateModal:!this.state.showCreateModal})}} />
+                        <Icon icon={bell} style={{ padding: 10 }} onClick={() => { this.setState({ showCreateModal: !this.state.showCreateModal }) }} />
                     </div>
                     <Switch>
-                        <Route component={workspaces} path={["/:wid","/:wid/:sid","/:wid/:sid/:cid"]} /> 
+                        <Route component={workspaces} path={["/:wid", "/:wid/:sid", "/:wid/:sid/:cid"]} />
                     </Switch>
                 </Container>
-                {this.state.showCreateModal && <Create onClick={()=>{this.setState({showCreateModal:!this.state.showCreateModal})}}/>}
+                {this.state.showCreateModal && <Create onClick={() => { this.setState({ showCreateModal: !this.state.showCreateModal }) }} />}
             </Wrapper>
         )
     }
 }
 
-const mapStateToProps = (state ) => {    
-        return {  user: state.user ,workspaces:state.workspaces} 
+const mapStateToProps = (state, ownprops) => {
+    let selectedWorkspace = state.user.selectedWorkspace 
+    if (state.workspaces && ownprops.match.params.wid && state.workspaces[ownprops.match.params.wid]) {
+        selectedWorkspace = ownprops.match.params.wid;
+    }
+    return { user: state.user, workspaces: state.workspaces, selectedWorkspace: selectedWorkspace }
 }
 
 const Wrapper = styled.div`

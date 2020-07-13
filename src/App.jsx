@@ -2,7 +2,7 @@ import React from "react";
 import { Provider } from "react-redux";
 import { createBrowserHistory } from "history";
 
-import AppRouter from "./AppRouter.js"; 
+import AppRouter from "./AppRouter.jsx"; 
 
 import reducer from './reducers'
 import { createStore } from "redux";

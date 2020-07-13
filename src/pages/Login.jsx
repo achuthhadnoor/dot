@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Icon from 'react-icons-kit'
 import { github } from 'react-icons-kit/feather'
-import Api from './../api'
+import Api from '../api'
 import styled from 'styled-components'
 export class Login extends Component {
     state = {
