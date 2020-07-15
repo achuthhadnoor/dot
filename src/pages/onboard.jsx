@@ -1,20 +1,20 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import {updateUser} from './../api'
+import Api from '../api'
 export class onboard extends Component { 
-    componentDidMount(){ 
+    componentDidMount(){  
         if(!this.props.user.onboard){
-            this.props.history.push('/')
+            this.props.history.replace('/')
         }
     }
     done = ()=>{  
          let {user} = this.props
-            user.onboard = false;  
-         updateUser(this.props.dispatch,user)
+         user.onboard = false;  
+         Api.updateUserInfo(this.props.dispatch,user)
     }
     render() {  
         if(!this.props.user.onboard){
-            this.props.history.push('/')
+            this.props.history.replace('/')
         }
         return (
             <div>

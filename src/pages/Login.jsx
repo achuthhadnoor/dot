@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Icon from 'react-icons-kit'
 import { github } from 'react-icons-kit/feather'
-import fire from './../api/firebase'
+import Api from '../api'
 import styled from 'styled-components'
 export class Login extends Component {
     state = {
@@ -10,11 +10,11 @@ export class Login extends Component {
     }
     login = () => {
         this.setState({ islogging: true })
-        fire.login().then((u) => {  
-            this.props.dispatch({type:'UPDATE_USER',user:u})
-            this.props.history.push('/onboarding')
+        Api.login(this.props.dispatch).then( () => {   
+            this.props.history.replace('/onboarding')
         }).catch(()=>{
             this.setState({islogging:false})
+            this.props.history.replace('/')
         })
     }
     render() { 

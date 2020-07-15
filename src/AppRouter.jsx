@@ -11,7 +11,7 @@ import Login from './pages/Login'
 import NotFound from './pages/404'
 import Home from './pages' 
 import { ThemeWrapper } from "./services/theme"; 
-import { getAllData } from "./api";
+import Api from './api'
 import  onboard   from "./pages/onboard";
 import  create   from "./pages/create";
 
@@ -19,8 +19,8 @@ nprogress.start();
 class AppRouter extends Component {
     componentDidMount() {
         const {dispatch} = this.props;
-        getAllData(dispatch)
-        nprogress.done();
+        Api.init(dispatch).catch(()=>this.props.history.replace('/login'));
+        nprogress.done(); 
     }
     componentWillUnmount() { 
         nprogress.done();

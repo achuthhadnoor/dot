@@ -8,6 +8,8 @@ import { NavLink } from 'react-router-dom';
 import { ReactSortable } from 'react-sortablejs';
 
 export default ({ workspaces, user, onSortEnd }) => {
+    var spaces = []
+    for (var key in workspaces) { if (workspaces[key]) { spaces.push(workspaces[key]) } }
     return (
         <Wrapper>
             <NavLink to="/" className="options" >
@@ -15,18 +17,18 @@ export default ({ workspaces, user, onSortEnd }) => {
             </NavLink>
 
             <Items>
-                <ReactSortable 
-                     list={workspaces} 
-                     setList={onSortEnd}
-                     style={{display:'flex',flexDirection:"column"}}
-                     >
-                    {workspaces && workspaces.map((workspace, index) => (
+                <ReactSortable
+                    list={spaces}
+                    setList={onSortEnd}
+                    style={{ display: 'flex', flexDirection: "column" }}
+                >
+                    {spaces && spaces.map((workspace, index) => (
                         <Item
                             key={`item-${index}`}
                             index={index}
                             to={"/" + workspace.id}
                             style={{ textTransform: 'uppercase' }}
-                            activeStyle={{background:"rgba(0,0,0,.4)"}}
+                            activeStyle={{ background: "rgba(0,0,0,.4)" }}
                         >{workspace.title.slice(0, 2)}</Item>
                     ))}
                 </ReactSortable>
