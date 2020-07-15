@@ -4,6 +4,7 @@
 /node_modules
 .lock
 .thei
+yarn.lock
 
 # testing
 /coverage

@@ -10,6 +10,7 @@ import { bell } from 'react-icons-kit/feather';
 import Create from '../components/workspace/Create';
 import workspaces from './workspace';
 import Sidebar from '../components/sidebar'
+import Api from '../api';
 
 class Home extends React.Component {
     constructor() {
@@ -29,7 +30,8 @@ class Home extends React.Component {
             6) notifications
             7) help docs / keyboard shortcust list 
         */
-        this.props.history.push(`/${this.props.selectedWorkspace}`);
+        const { wid, sid, cid } = this.props.match.params; 
+        Api.getSelectedWorkspaceData(this.props.dispatch,wid, sid, cid).then(url => this.props.history.replace(url));
     }
     onSortEnd = (w) => {
         let { user } = this.props;
@@ -59,7 +61,7 @@ class Home extends React.Component {
 }
 
 const mapStateToProps = (state, ownprops) => {
-    let selectedWorkspace = state.user.selectedWorkspace 
+    let selectedWorkspace = state.user.selectedWorkspace
     if (state.workspaces && ownprops.match.params.wid && state.workspaces[ownprops.match.params.wid]) {
         selectedWorkspace = ownprops.match.params.wid;
     }

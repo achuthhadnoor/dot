@@ -24,15 +24,6 @@ class Api {
             if (userID) {
                 this.getUserInfo(userID).then(u => {
                     dispatch({ type: 'UPDATE_USER', user: u });
-                    this.getWorkspaces(userID).then(w => {
-                        dispatch({ type: 'UPDATE_WORKSPACES', workspaces: w })
-                        // this.getSpaces().then(s => { 
-                        //     dispatch({ type: 'UPDATE_SPACES', spaces: s })
-                        //     this.getSnippets().then(s => {
-                        //         dispatch({ type: 'UPDATE_SNIPPETS', snippets: s })
-                        //     })
-                        // })
-                    })
                 }).catch(e => {
                     rej(e);
                 })
@@ -149,24 +140,34 @@ class Api {
         })
     }
 
-    getworkspaceById = (dispatch,id)=>{
-        return new Promise((resolve)=>{
-            this.getSpaces(dispatch,id).then(s=>{
-                if(s[0]){
-                     let x = s[0].data(); 
-                         resolve(x.id) 
+
+    addWorkspace = (oldworkspaces, newworkspace) => {
+
+    }
+
+    getSelectedWorkspaceData = (dispatch, wid, sid, cid) => {
+        if (wid === undefined) {
+            wid = this.user.selectedWorkspace;
+        }
+        return new Promise((resolve) => {
+            this.getSpaces(dispatch, wid, sid, cid).then(s => {
+                if (sid === undefined) {
+                    sid = s[0].id
                 }
+                this.getSnippets(dispatch, wid, sid, cid).then(c => {
+                    if (cid === undefined) {
+                        cid = c[0].id
+                    }
+                    dispatch({type:'UPDATE_ALL_DATA',user:this.user,spaces:this.spaces,snippets:this.snippets})
+                    resolve(`/${wid}/${sid}/${cid}`)
+                })
             })
         })
     }
 
-    addWorkspace = (oldworkspaces,newworkspace)=>{
-        
-    }
-
-    getSpaces = (dispatch, id) => {
+    getSpaces = (dispatch, wid, sid, cid) => {
         return new Promise((resolve, reject) => {
-            var snapshots = this.store.collection(`/workspaces/${id}/spaces`).get().then(snapshot => {
+            var snapshots = this.store.collection(`/workspaces/${wid}/spaces`).get().then(snapshot => {
                 return snapshot.docs
             })
             snapshots.then(a => {
@@ -174,23 +175,29 @@ class Api {
                 a.forEach(space => {
                     spaces.push(space.data())
                 }); 
-                dispatch({ type: 'UPDATE_SPACES', spaces: spaces })
-                resolve(a)
+                this.spaces = spaces; 
+                resolve(spaces)
             })
         })
     }
 
-    getSnippets = (dispatch, wid, sid) => {
+
+    getSnippets = (dispatch, wid, sid, cid) => {
         return new Promise((resolve, reject) => {
-            var x = this.store.collection(`/workspaces/${wid}/spaces/${sid}`).get().then(snapshot => {
+            var snapshots = this.store.collection(`/workspaces/${wid}/spaces/${sid}/snippets/`).get().then(snapshot => {
                 return snapshot.docs
             })
-            x.then(a => {
-                dispatch({ type: 'UPDATE_SNIPPETS', snippets: a })
-                return resolve(a)
+            snapshots.then(a => {
+                var snippets = []
+                a.forEach(space => {
+                    snippets.push(space.data())
+                }); 
+                this.snippets = snippets; 
+                resolve(snippets)
             })
         })
     }
+
 
     getsnippet = (dispatch, wid, sid, cid) => {
         return new Promise((resolve, reject) => {

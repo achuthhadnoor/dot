@@ -4,8 +4,7 @@ import { Switch, Route } from 'react-router-dom'
 
 import styled from 'styled-components';
 import spaces from './spaces'
-import SpacesList from '../components/workspace/SpacesList';
-import Api from '../api';
+import SpacesList from '../components/workspace/SpacesList'; 
 // list of worspaces and global search on the Top
 class Workspaces extends React.Component {
 
@@ -14,9 +13,7 @@ class Workspaces extends React.Component {
              1) show list of spaces 
              2) select first space data into redux or from /:sid
              3) switch space data into redux
-        */
-        Api.getworkspaceById(this.props.dispatch, this.props.match.params.wid)
-                .then(id => this.props.history.push(`/${this.props.match.params.wid}/${id}`))
+        */ 
     }
     render() {
         return (
@@ -33,8 +30,9 @@ class Workspaces extends React.Component {
 }
 
 const mapStateToProps = (state, ownprops) => {
-    if (state.spaces && state.workspaces) {
-        let selectedSpace = state.workspaces[ownprops.match.params.wid].selected_space || null;
+    debugger
+    if (state.spaces && state.workspaces) { 
+        let selectedSpace = state.workspaces[0].selected_space || null;
         if (selectedSpace && state.spaces && ownprops.match.params.sid && state.spaces[ownprops.match.params.sid]) {
             selectedSpace = ownprops.match.params.sid;
         }
