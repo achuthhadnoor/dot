@@ -11,10 +11,10 @@ export class Login extends Component {
     login = () => {
         this.setState({ islogging: true })
         Api.login(this.props.dispatch).then( () => {   
-            this.props.history.push('/onboarding')
+            this.props.history.replace('/onboarding')
         }).catch(()=>{
             this.setState({islogging:false})
-            this.props.history.push('/')
+            this.props.history.replace('/')
         })
     }
     render() { 

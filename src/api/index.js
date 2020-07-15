@@ -149,6 +149,17 @@ class Api {
         })
     }
 
+    getworkspaceById = (dispatch,id)=>{
+        return new Promise((resolve)=>{
+            this.getSpaces(dispatch,id).then(s=>{
+                if(s[0]){
+                     let x = s[0].data(); 
+                         resolve(x.id) 
+                }
+            })
+        })
+    }
+
     addWorkspace = (oldworkspaces,newworkspace)=>{
         
     }

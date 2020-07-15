@@ -19,7 +19,7 @@ nprogress.start();
 class AppRouter extends Component {
     componentDidMount() {
         const {dispatch} = this.props;
-        Api.init(dispatch).catch(()=>this.props.history.push('/login'));
+        Api.init(dispatch).catch(()=>this.props.history.replace('/login'));
         nprogress.done(); 
     }
     componentWillUnmount() { 

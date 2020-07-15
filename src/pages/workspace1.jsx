@@ -14,9 +14,16 @@ class Workspaces extends React.Component {
              1) show list of spaces 
              2) select first space data into redux or from /:sid
              3) switch space data into redux
-        */
-        Api.getworkspaceById(this.props.dispatch, this.props.match.params.wid)
-                .then(id => this.props.history.push(`/${this.props.match.params.wid}/${id}`))
+        */  
+        this.getSpaces()
+    }
+    getSpaces = () => {
+        Api.getSpaces(this.props.dispatch,this.props.match.params.wid)
+    }
+    componentDidUpdate(props){ 
+        if ( this.props.spaces && props.selectedSpace !== this.props.selectedSpace) { 
+           props.history.push(`/${this.props.selectedWorkspace}/${this.props.selectedSpace}`);
+        }
     }
     render() {
         return (
@@ -32,23 +39,23 @@ class Workspaces extends React.Component {
     }
 }
 
-const mapStateToProps = (state, ownprops) => {
-    if (state.spaces && state.workspaces) {
+const mapStateToProps = (state, ownprops) => { 
+    if ( state.spaces) {       
         let selectedSpace = state.workspaces[ownprops.match.params.wid].selected_space || null;
         if (selectedSpace && state.spaces && ownprops.match.params.sid && state.spaces[ownprops.match.params.sid]) {
             selectedSpace = ownprops.match.params.sid;
-        }
-        return {
-            ...ownprops,
-            user: state.user,
-            workspace: state.workspaces[ownprops.match.params.wid],
-            selectedWorkspace: ownprops.match.params.wid,
-            spaces: state.spaces,
-            selectedSpace: selectedSpace
-        };
+        }    
+            return {
+                ...ownprops,
+                user: state.user,
+                workspace: state.workspaces[ownprops.match.params.wid],
+                selectedWorkspace:ownprops.match.params.wid,
+                spaces: state.spaces, 
+                selectedSpace: selectedSpace
+            };
     }
     else {
-        return { ...ownprops, user: state.user, workspaces: state.workspaces, spaces: state.spaces, selectedWorkspace: ownprops.match.params.wid, }
+        return { ...ownprops, user: state.user, workspaces: state.workspaces,spaces:state.spaces,selectedWorkspace:ownprops.match.params.wid,}
     }
 }
 

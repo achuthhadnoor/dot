@@ -4,7 +4,7 @@ import Api from '../api'
 export class onboard extends Component { 
     componentDidMount(){  
         if(!this.props.user.onboard){
-            this.props.history.push('/')
+            this.props.history.replace('/')
         }
     }
     done = ()=>{  
@@ -14,7 +14,7 @@ export class onboard extends Component {
     }
     render() {  
         if(!this.props.user.onboard){
-            this.props.history.push('/')
+            this.props.history.replace('/')
         }
         return (
             <div>
