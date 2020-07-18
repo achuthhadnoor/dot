@@ -9,7 +9,7 @@ import AuthedRoute from "./AuthedRoute";
 import UnauthedRoute from "./UnauthedRoute";
 import Login from './pages/Login'
 import NotFound from './pages/404'
-import Home from './pages' 
+import Workspace from './pages' 
 import { ThemeWrapper } from "./services/theme"; 
 import Api from './api'
 import  onboard   from "./pages/onboard";
@@ -33,7 +33,7 @@ class AppRouter extends Component {
                             <UnauthedRoute component={Login} exact path="/login" />  
                             <AuthedRoute component={create} exact path="/create" />
                             <AuthedRoute component={onboard} exact path="/onboarding" />
-                            <AuthedRoute component={Home} exact path={["/","/:wid","/:wid/:sid","/:wid/:sid/:cid"]} />
+                            <AuthedRoute component={Workspace} exact path={["/","/:wid","/:wid/:sid","/:wid/:sid/:cid"]} />
                             <Route component={NotFound} />
                         </Switch> 
                 </ThemeWrapper>
