@@ -17,8 +17,7 @@ class SpacesList extends React.Component {
     render() {
         const spaces = [];
         for(var key in this.props.spaces){
-            spaces.push(this.props.spaces[key])
-            console.log(spaces)
+            spaces.push(this.props.spaces[key]) 
         }
         return (
             <Wrapper>

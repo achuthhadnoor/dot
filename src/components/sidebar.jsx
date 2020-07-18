@@ -8,8 +8,8 @@ import { NavLink } from 'react-router-dom';
 import { ReactSortable } from 'react-sortablejs';
 
 export default ({ workspaces, user, onSortEnd }) => {
-    var spaces = []
-    for (var key in workspaces) { if (workspaces[key]) { spaces.push(workspaces[key]) } }
+    var spaces = [];
+    for (var key in workspaces) { if (workspaces[key]) { spaces.push(workspaces[key]) } } 
     return (
         <Wrapper>
             <NavLink to="/" className="options" >
